@@ -1,0 +1,62 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+
+    <item
+        android:id="@+id/change_approach"
+        android:icon="@drawable/ic_change_approach"
+        android:title="@string/change_approach"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+
+    <item
+        android:id="@+id/toggle_sensor"
+        android:icon="@drawable/ic_sensor_on"
+        android:title="@string/toggle_sensor"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+
+    <item
+        android:id="@+id/menu_list"
+        android:icon="@drawable/ic_menu_list"
+        android:title="@string/menu_list"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" >
+
+        <menu>
+
+            <item
+                android:id="@+id/step_count"
+                android:icon="@drawable/ic_step_count"
+                android:title="@string/step_count"
+                app:showAsAction="never" />
+
+            <item
+                android:id="@+id/capture_trajectory"
+                android:icon="@drawable/ic_capture_trajectory"
+                android:title="@string/capture_trajectory"
+                app:showAsAction="never" />
+
+            <item
+                android:id="@+id/set_config"
+                android:icon="@drawable/ic_set_config"
+                android:title="@string/set_config"
+                app:showAsAction="never" />
+
+            <item
+                android:id="@+id/acc_canvas"
+                android:icon="@drawable/ic_acc_canvas"
+                android:title="@string/acc_canvas"
+                app:showAsAction="never" />
+
+            <item
+                android:id="@+id/exit_app"
+                android:icon="@drawable/ic_exit_app"
+                android:title="@string/exit_app"
+                app:showAsAction="never" />
+
+        </menu>
+
+    </item>
+
+</menu>

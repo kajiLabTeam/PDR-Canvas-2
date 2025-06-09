@@ -1,0 +1,40 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+
+    <item
+        android:id="@+id/reset_position"
+        android:icon="@drawable/ic_reset_position"
+        android:title="@string/reset_position"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+
+    <item
+        android:id="@+id/reset_angle"
+        android:icon="@drawable/ic_reset_angle"
+        android:title="@string/reset_angle"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+
+    <item
+        android:id="@+id/zoom_out"
+        android:icon="@drawable/ic_zoom_out"
+        android:title="@string/zoom_out"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+
+    <item
+        android:id="@+id/zoom_in"
+        android:icon="@drawable/ic_zoom_in"
+        android:title="@string/zoom_in"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+
+    <item
+        android:id="@+id/clear_trajectory"
+        android:icon="@drawable/ic_clear_trajectory"
+        android:title="@string/clear_trajectory"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+
+</menu>

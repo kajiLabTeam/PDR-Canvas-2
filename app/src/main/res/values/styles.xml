@@ -1,0 +1,29 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="actionBarSize">45dp</item>
+        <item name="android:actionBarStyle">@style/CustomActionBar</item>
+        <item name="actionBarStyle">@style/CustomActionBar</item>
+
+        <!-- 操作音消去 -->
+        <item name="android:soundEffectsEnabled">false</item>
+    </style>
+
+    <!-- ActionBar & ToolBar style -->
+    <style name="CustomActionBar"  parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="background">@color/colorPrimary</item>
+        <item name="titleTextStyle">@style/titleTextStyle</item>
+    </style>
+
+    <!-- title style -->
+    <style name="titleTextStyle">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+</resources>

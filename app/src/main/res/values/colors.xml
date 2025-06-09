@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#E0E0E0</color>
+    <color name="colorAccent">#ffffff</color>
+    <color name="colorDroid">#A4C639</color>
+    <color name="editTextBackgroud">#f0f0f0</color>
+    <color name="colorDeadCode">#deadc0de</color>
+</resources>

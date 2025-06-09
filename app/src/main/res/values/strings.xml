@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">PDR Canvas2</string>
+    <string name="acc_canvas">Acc Canvas</string>
+    <string name="pdr">Pedestrian Dead Reckoning</string>
+    <string name="approach1">PDR (Acc + Gyro)</string>
+    <string name="approach2">PDR (Acc)</string>
+    <string name="approach3">PDR (Gyro)</string>
+    <string name="clear_trajectory">Clear Trajectory</string>
+    <string name="reset_location">Reset Location</string>
+    <string name="reset_position">Reset Position</string>
+    <string name="reset_angle">Reset Angle</string>
+    <string name="zoom_out">Zoom Out</string>
+    <string name="zoom_in">Zoom In</string>
+    <string name="reset_scale">Reset Scale</string>
+    <string name="toggle_sensor">Toggle Sensor</string>
+    <string name="change_approach">Change Approach</string>
+    <string name="step_count">Step Count</string>
+    <string name="capture_trajectory">Capture Trajectory</string>
+    <string name="exit_app">Exit App</string>
+    <string name="menu_list">Menu List</string>
+    <string name="set_config">Set Config</string>
+    <string name="input">Input</string>
+    <string name="step_size">Step Size</string>
+    <string name="draw_size">Draw Size</string>
+    <string name="transparent">Transparent</string>
+    <string name="ok">OK</string>
+</resources>
