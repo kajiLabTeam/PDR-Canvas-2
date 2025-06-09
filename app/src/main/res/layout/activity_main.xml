@@ -7,14 +7,27 @@
     tools:context=".MainActivity"
     tools:ignore="MissingConstraints">
 
+    <!-- 上側ツールバー（ActionBar用） -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_top"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/colorPrimary"
+        android:titleTextStyle="@style/titleTextStyle"
+        android:titleTextColor="#FFFFFF"
+        android:layout_alignParentTop="true" />
+
     <view
         android:id="@+id/drawing_view"
         class="io.github.harutiro.pdrcanvas2.CanvasView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar_top"
+        android:layout_above="@id/toolbar_bottom" />
 
-    <Toolbar
-        android:id="@+id/toolbar_main"
+    <!-- 下側ツールバー（ツール用） -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_bottom"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:paddingLeft="0dp"

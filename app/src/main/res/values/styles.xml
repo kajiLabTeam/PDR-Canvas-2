@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -23,7 +23,7 @@
     <!-- title style -->
     <style name="titleTextStyle">
         <item name="android:textSize">15sp</item>
-        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColor">#FFFFFF</item>
     </style>
 
 </resources>

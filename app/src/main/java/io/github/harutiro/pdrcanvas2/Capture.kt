@@ -20,6 +20,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
+import androidx.core.content.FileProvider
 
 class Capture internal constructor(private val context: Context, private val view: View) {
     private var datName: String? = null
@@ -87,8 +88,11 @@ class Capture internal constructor(private val context: Context, private val vie
     @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
     fun sendPushNotification(stepcount: Int) {
         val intent = Intent(Intent.ACTION_VIEW)
-        intent.setDataAndType(Uri.fromFile(File(SDCARD_FOLDER + datName)), "image/png")
-        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(File(SDCARD_FOLDER + datName)))
+        val file = File(SDCARD_FOLDER + datName)
+        val uri = FileProvider.getUriForFile(context, context.packageName + ".fileprovider", file)
+        intent.setDataAndType(uri, "image/png")
+        intent.putExtra(Intent.EXTRA_STREAM, uri)
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
         intent.setFlags(
             (Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -100,7 +104,7 @@ class Capture internal constructor(private val context: Context, private val vie
             context,
             0,
             intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_ONE_SHOT
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
         )
 
         val builder = NotificationCompat.Builder(context.getApplicationContext())

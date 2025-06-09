@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.graphics.Color
 import android.graphics.Point
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -22,7 +23,6 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ActionMenuView
 import android.widget.Toast
-import android.widget.Toolbar
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -63,7 +63,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private var movingAverage: MovingAverage? = null
     private var countFlag: CountFlag? = null
 
-    private var toolbar: Toolbar? = null
+    private lateinit var toolbarTop: androidx.appcompat.widget.Toolbar
+    private lateinit var toolbarBottom: androidx.appcompat.widget.Toolbar
     private var toast: Toast? = null
     private var exitFlag = false
 
@@ -76,7 +77,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         setContentView(R.layout.activity_main)
         setTitle(R.string.approach1)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-
 
         average[0] = Average()
         average[1] = Average()
@@ -92,41 +92,80 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         // countに変化がなくupdateがsize回呼ばれたらcountをreset
         countFlag = CountFlag(30)
         // toolbar設定
-        setupEvenlyDistributedToolbar()
-        onToolbarOptionsItemSelected()
+        toolbarTop = findViewById(R.id.toolbar_top)
+        setSupportActionBar(toolbarTop)
+        supportActionBar?.title = getString(R.string.approach1)
+        toolbarTop.title = getString(R.string.approach1)
+        toolbarTop.setTitleTextColor(Color.WHITE)
+        setupEvenlyDistributedToolbar(toolbarTop)
+
+        toolbarBottom = findViewById(R.id.toolbar_bottom)
+        toolbarBottom.inflateMenu(R.menu.tool)
+        setupEvenlyDistributedToolbar(toolbarBottom)
+        toolbarBottom.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.reset_position -> {
+                    canvasView!!.resetMove()
+                    canvasView!!.invalidate()
+                    true
+                }
+                R.id.reset_angle -> {
+                    canvasView!!.resetAngle()
+                    canvasView!!.invalidate()
+                    true
+                }
+                R.id.zoom_out -> {
+                    canvasView!!.zoomScale(-0.5f)
+                    canvasView!!.invalidate()
+                    true
+                }
+                R.id.zoom_in -> {
+                    canvasView!!.zoomScale(0.5f)
+                    canvasView!!.invalidate()
+                    true
+                }
+                R.id.clear_trajectory -> {
+                    stepcount = 0
+                    canvasView!!.allDelete()
+                    canvasView!!.invalidate()
+                    true
+                }
+                else -> false
+            }
+        }
         manager = getSystemService(SENSOR_SERVICE) as SensorManager
     }
 
     // ToolBar Layout
     @SuppressLint("RestrictedApi")
-    fun setupEvenlyDistributedToolbar() {
+    fun setupEvenlyDistributedToolbar(toolbar: androidx.appcompat.widget.Toolbar) {
         // Use Display metrics to get Screen Dimensions
         val display = getWindowManager().getDefaultDisplay()
         val metrics = DisplayMetrics()
         display.getMetrics(metrics)
 
         // Toolbar
-        toolbar = findViewById<View?>(R.id.toolbar_main) as Toolbar
+        // toolbar = findViewById<View?>(R.id.toolbar_main) as Toolbar // ← ここはonCreateでやる
 
         // Inflate your menu
-        checkNotNull(toolbar)
-        toolbar!!.inflateMenu(R.menu.tool)
+        // checkNotNull(toolbar)
+        // toolbar!!.inflateMenu(R.menu.tool) // ← ここを削除
 
         // Add 10 spacing on either side of the toolbar
-        toolbar!!.setContentInsetsAbsolute(10, 10)
+        toolbar.setContentInsetsAbsolute(10, 10)
 
         // Get the ChildCount of your Toolbar, this should only be 1
-        val childCount = toolbar!!.getChildCount()
+        val childCount = toolbar.childCount
         // Get the Screen Width in pixels
         val screenWidth = metrics.widthPixels
 
         // Create the Toolbar Params based on the screenWidth
-        val toolbarParams = Toolbar.LayoutParams(screenWidth, Toolbar.LayoutParams.WRAP_CONTENT)
+        val toolbarParams = androidx.appcompat.widget.Toolbar.LayoutParams(screenWidth, androidx.appcompat.widget.Toolbar.LayoutParams.WRAP_CONTENT)
 
         // Loop through the child Items
         for (i in 0..<childCount) {
             // Get the item at the current index
-            val childView = toolbar!!.getChildAt(i)
+            val childView = toolbar.getChildAt(i)
             // If its a ViewGroup
             if (childView is ViewGroup) {
                 // Set its layout params
@@ -136,7 +175,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                 val itemWidth = (screenWidth / innerChildCount)
                 // Create layout params for the ActionMenuView
                 val params =
-                    ActionMenuView.LayoutParams(itemWidth, Toolbar.LayoutParams.WRAP_CONTENT)
+                    android.view.ViewGroup.LayoutParams(itemWidth, androidx.appcompat.widget.Toolbar.LayoutParams.WRAP_CONTENT)
                 // Loop through the children
                 for (j in 0..<innerChildCount) {
                     val grandChild = childView.getChildAt(j)
@@ -149,35 +188,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         }
     }
 
-    fun onToolbarOptionsItemSelected() {
-        toolbar!!.setOnMenuItemClickListener(object : Toolbar.OnMenuItemClickListener {
-            override fun onMenuItemClick(item: MenuItem): Boolean {
-                val itemId = item.getItemId() // アイテムIDを取得
-
-                if (itemId == R.id.reset_position) {
-                    canvasView!!.resetMove()
-                } else if (itemId == R.id.reset_angle) {
-                    canvasView!!.resetAngle()
-                } else if (itemId == R.id.zoom_out) {
-                    canvasView!!.zoomScale(-0.5f)
-                } else if (itemId == R.id.zoom_in) {
-                    canvasView!!.zoomScale(0.5f)
-                } else if (itemId == R.id.clear_trajectory) {
-                    stepcount = 0
-                    canvasView!!.allDelete()
-                }
-
-                canvasView!!.invalidate()
-
-                return true
-            }
-        })
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        getMenuInflater().inflate(R.menu.option, menu)
+        menuInflater.inflate(R.menu.option, menu)
         toggle_sensor = menu.findItem(R.id.toggle_sensor)
-        return super.onCreateOptionsMenu(menu)
+        return true
     }
 
     @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
@@ -190,10 +204,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             approach = 2 - approach
             // この内側の switch 文は 'approach' がローカル変数なので問題ありません
             when (approach) {
-                0 -> setTitle(R.string.approach1)
-                1 -> setTitle(R.string.approach2)
-                2 -> setTitle(R.string.approach3)
-                else -> {}
+                0 -> supportActionBar?.title = getString(R.string.approach1)
+                1 -> supportActionBar?.title = getString(R.string.approach2)
+                2 -> supportActionBar?.title = getString(R.string.approach3)
             }
         } else if (itemId == R.id.toggle_sensor) {
             toggleSensor()
@@ -296,7 +309,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                 }
 
                 KeyEvent.KEYCODE_BACK -> {
-                    if (toast == null || !toast!!.getView()!!.isShown() || !exitFlag) {
+                    if (toast == null || !toast!!.view!!.isShown() || !exitFlag) {
                         toast("再度タップすると終了します")
                         exitFlag = true
                     } else {
